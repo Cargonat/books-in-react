@@ -1,15 +1,13 @@
 import React from 'react';
-import BookList from './components/BookList'
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container} from "react-bootstrap";
+import BookList from './components/BookList'
+import MainNavbar from "./components/MainNavbar";
 
 function App() {
     return (
-        <div className="App">
-            <Container>
-                <BookList/>
-            </Container>
+        <div className="bg-dark ">
+            <MainNavbar/>
+            <BookList/>
         </div>
     );
 }
