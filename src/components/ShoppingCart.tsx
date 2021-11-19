@@ -1,17 +1,12 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import {Book} from "../types";
-import {Offcanvas} from "react-bootstrap";
+import React from 'react';
+import {StateProps} from "../types";
+import {Button, Offcanvas} from "react-bootstrap";
 import ShoppingCartItem from "./ShoppingCartItem";
 
-function ShoppingCart(props: {
-    bookSelection: Book[],
-    setBookSelection: Dispatch<SetStateAction<Book[]>>,
-    show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>,
-}) {
+function ShoppingCart({state, setState}: StateProps) {
     return <Offcanvas
-        show={props.show}
-        onHide={() => props.setShow(false)}
+        show={state.showCart}
+        onHide={() => setState(Object.assign(state, {showCart: false}))}
         placement="end">
         <Offcanvas.Header closeButton>
             <Offcanvas.Title>
@@ -19,7 +14,13 @@ function ShoppingCart(props: {
             </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-            {props.bookSelection.map(book => <ShoppingCartItem book={book}/>)}
+            {state.bookSelection.map(book => <ShoppingCartItem book={book}/>)}
+            <br/>
+            <Button value="" onClick={() => {
+                setState(Object.assign(state, {showCart: false, bookSelection: []}))
+            }}>
+                Clear cart
+            </Button>
         </Offcanvas.Body>
     </Offcanvas>
 }

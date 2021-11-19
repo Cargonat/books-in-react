@@ -1,12 +1,12 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React from 'react';
 import BookCard from "./BookCard";
 import {Col, Container, Row} from "react-bootstrap";
-import {Book} from "../types";
+import {Book, StateProps} from "../types";
 import booksJson from "../data/books-first-200.json"
 
 
 function getBooks(): Book[] {
-    return booksJson.sort((a, b) => 0.5 - Math.random());
+    return booksJson.sort((book1, book2) => book1.title.localeCompare(book2.title));
 }
 
 function getBookRows(books: Book[]): Book[][] {
@@ -27,20 +27,19 @@ function getBookRows(books: Book[]): Book[][] {
     return book_rows;
 }
 
-function BookList(props: {
-    bookSelection: Book[],
-    setBookSelection: Dispatch<SetStateAction<Book[]>>,
-}) {
+function BookList({state, setState}: StateProps) {
     const books: Book[] = getBooks();
     const book_rows: Book[][] = getBookRows(books);
 
     return (
         <Container className="w-50">
-            {book_rows.map(row => <Row>
-                {row.map(book => <Col xs={6} md={4}>
-                    <BookCard book={book}/>
-                </Col>)}
-            </Row>)}
+            {book_rows.map((row, i) =>
+                <Row key={"book-row-" + i}>
+                    {row.map((book, j) =>
+                        <Col xs={6} md={4} key={"book-row-" + i + "-col-" + j}>
+                            <BookCard book={book} state={state} setState={setState}/>
+                        </Col>)}
+                </Row>)}
         </Container>
     );
 }
