@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import BookCard from "./BookCard";
 import {Col, Container, Row} from "react-bootstrap";
 import {Book} from "../types";
@@ -22,15 +22,17 @@ function getBookRows(books: Book[]): Book[][] {
         let row = Math.floor(i / row_length)
         let col = i % row_length;
         book_rows[row][col] = books[i];
-        console.log({row, col, i, book_rows})
     }
 
     return book_rows;
 }
 
-function BookList() {
-    const books = getBooks();
-    const book_rows = getBookRows(books);
+function BookList(props: {
+    bookSelection: Book[],
+    setBookSelection: Dispatch<SetStateAction<Book[]>>,
+}) {
+    const books: Book[] = getBooks();
+    const book_rows: Book[][] = getBookRows(books);
 
     return (
         <Container className="w-50">
